@@ -1,12 +1,12 @@
-function graph(expression, canvasId, scale, thickness){
+function graph(expression, canvasId, x1, x2, y1, y2, thickness){
   var canvas = document.getElementById(canvasId);
   var ctx = canvas.getContext("2d");
   ctx.fillStyle = "#000000";
 
-  var leftBound = -scale;
-  var rightBound = scale;
-  var bottomBound = -scale;
-  var topBound = scale;
+  var leftBound = x1;
+  var rightBound = x2;
+  var bottomBound = y1;
+  var topBound = y2;
 
   var vWidth = (rightBound - leftBound);
   var vHeight = (topBound - bottomBound);
