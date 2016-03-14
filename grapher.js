@@ -11,8 +11,8 @@ function graph(expression, canvasId, scale, thickness){
   var vWidth = (rightBound - leftBound);
   var vHeight = (topBound - bottomBound);
 
-  var height = parseInt($("#myCanvas").css("width"));
-  var width = parseInt($("#myCanvas").css("height"));
+  var height = canvas.height;
+  var width = canvas.width;
 
   var xScaleFactor = vWidth / width;
   var yScaleFactor = vHeight / height;
