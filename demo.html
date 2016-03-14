@@ -20,7 +20,8 @@
 
 
 
-  function graph(canvasId, scale){
+
+  function graph(expression, canvasId, scale){
     var canvas = document.getElementById(canvasId);
     var ctx = canvas.getContext("2d");
     ctx.fillStyle = "#000000";
@@ -44,11 +45,16 @@
     var xPixel = 0;
     var yPixel = 0;
 
+    var f = function(x){
+      //return Math.pow(x,3);
+      return eval(expression)
+    }
+
     var precision = height;
 
     for(var i = leftBound*precision; i < rightBound*precision; i++){
       xPixel = i/precision;
-      yPixel = Math.pow(i/precision, 3)/200;
+      yPixel = f(i/precision);
 
       xPixel = xPixel - leftBound;
       yPixel = yPixel - bottomBound;
@@ -56,15 +62,13 @@
       xPixel = xPixel/xScaleFactor;
       yPixel = yPixel/yScaleFactor;
 
-
-
       yPixel = height-yPixel;
       ctx.fillRect(xPixel,yPixel,pixelSize,pixelSize);
     }
   }
 
 
-  graph("myCanvas", 16);
+  graph("1/x", "myCanvas", 16);
 
 
 
