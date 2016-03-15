@@ -30,40 +30,58 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
     };
     math.eval(expression, scope);
     return scope.y;
-    //return Math.eval(expression);
   }
 
-  var dx = 0.1;
+  var delta = xScaleFactor;
+  var dx = 0;
   var xNext;
   var yNext;
 
   for(var i = leftBound; i < rightBound; ){
-    draw = 1;
-    xPixel = i;
-    yPixel = f(i);
-
-    xNext = i+dx;
-    yNext = f(i+dx)
-
-    xPixel = xPixel - leftBound;
-    yPixel = yPixel - bottomBound;
-    xNext = xNext - leftBound;
-    yNext = yNext - bottomBound;
-
-    xPixel = xPixel/xScaleFactor;
-    yPixel = yPixel/yScaleFactor;
-    xNext = xNext/xScaleFactor;
-    yNext = yNext/yScaleFactor;
-
-    yPixel = height-yPixel;
-    yNext = height-yNext;
-
-    ctx.moveTo(xPixel,yPixel);
-    ctx.lineTo(xNext, yNext);
-    ctx.stroke();
 
 
-    i=i+dx;
+      xPixel = i;
+      yPixel = f(i);
+
+      xNext = i+delta;
+      yNext = f(i+delta)
+
+      if(math.abs(yNext-yPixel) < 1){
+        dx = math.abs((yNext-yPixel))/delta;
+        xNext = i+math.min(dx, delta);
+        yNext = f(xNext)
+      }else{
+        xNext = xPixel+delta;
+        yNext = yPixel+delta;
+      }
+
+
+      xPixel = xPixel - leftBound;
+      yPixel = yPixel - bottomBound;
+      xNext = xNext - leftBound;
+      yNext = yNext - bottomBound;
+
+      xPixel = xPixel/xScaleFactor;
+      yPixel = yPixel/yScaleFactor;
+      xNext = xNext/xScaleFactor;
+      yNext = yNext/yScaleFactor;
+
+      yPixel = height-yPixel;
+      yNext = height-yNext;
+
+      ctx.moveTo(xPixel,yPixel);
+      ctx.lineTo(xNext, yNext);
+      ctx.stroke();
+
+
+
+    i=i+delta;
+
+
+
+
+
+
   }
 
 
