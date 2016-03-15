@@ -22,25 +22,49 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
   var xPixel = 0;
   var yPixel = 0;
 
+  var scope;
+
   var f = function(x){
-    return eval(expression)
+    var scope = {
+      x: x
+    };
+    math.eval(expression, scope);
+    return scope.y;
+    //return Math.eval(expression);
   }
 
-  var precision = height;
+  var dx = 0.1;
+  var xNext;
+  var yNext;
 
-  for(var i = leftBound*precision; i < rightBound*precision; ){
-    xPixel = i/precision;
-    yPixel = f(i/precision);
+  for(var i = leftBound; i < rightBound; ){
+    draw = 1;
+    xPixel = i;
+    yPixel = f(i);
+
+    xNext = i+dx;
+    yNext = f(i+dx)
 
     xPixel = xPixel - leftBound;
     yPixel = yPixel - bottomBound;
+    xNext = xNext - leftBound;
+    yNext = yNext - bottomBound;
 
     xPixel = xPixel/xScaleFactor;
     yPixel = yPixel/yScaleFactor;
+    xNext = xNext/xScaleFactor;
+    yNext = yNext/yScaleFactor;
 
     yPixel = height-yPixel;
-    ctx.fillRect(xPixel,yPixel,pixelSize,pixelSize);
-    i++;
+    yNext = height-yNext;
+
+    ctx.moveTo(xPixel,yPixel);
+    ctx.lineTo(xNext, yNext);
+    ctx.stroke();
+
+
+    i=i+dx;
   }
+
 
 }
