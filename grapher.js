@@ -31,7 +31,7 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
     return scope.y;
   }
 
-  var delta = 0.1;
+  var delta = 0.01;
   var dx = 0;
   var xNext;
   var yNext;
@@ -48,16 +48,16 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
 
     dx = (yNext-yPixel)/delta;
 
-    if(dx < 4 && dx > -4){
-      dx /= 4;
-      add = delta*(math.abs(dx));
-      //add = math.max(math.abs(dx),0);
+    //if(dx < 1 && dx > -1){
+      //dx /= 4;
+      add = delta*math.pow((math.abs(dx)),3);
+      //add = math.abs(dx);
       //alert(add);
       xNext = i+delta+add;
       yNext = f(xNext);
-    }else{
-      add = 0;
-    }
+    //}else{
+      //add = 0;
+    //}
 
 
     xPixel -= leftBound;
