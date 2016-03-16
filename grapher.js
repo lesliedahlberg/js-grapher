@@ -1,7 +1,6 @@
 function graph(expression, canvasId, x1, x2, y1, y2, thickness){
   var canvas = document.getElementById(canvasId);
   var ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#000000";
 
   var leftBound = x1;
   var rightBound = x2;
@@ -32,55 +31,62 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
     return scope.y;
   }
 
-  var delta = xScaleFactor;
+  var delta = 0.3;
   var dx = 0;
   var xNext;
   var yNext;
 
+  var color = 1;
+  var add;
+
   for(var i = leftBound; i < rightBound; ){
+    xPixel = i;
+    yPixel = f(xPixel);
+
+    xNext = i+delta;
+    yNext = f(xNext);
+
+    dx = (yNext-yPixel)/delta;
+
+    if(dx < 1 && dx > -1){
+      add = (math.abs(dx))*delta;
+      //add = math.max(math.abs(dx),0);
+      //alert(add);
+      xNext = i+delta-add;
+      yNext = f(xNext);
+    }else{
+      add = 0;
+    }
 
 
-      xPixel = i;
-      yPixel = f(i);
+    xPixel -= leftBound;
+    yPixel -= bottomBound;
+    xNext -= leftBound;
+    yNext -= bottomBound;
 
-      xNext = i+delta;
-      yNext = f(i+delta)
+    xPixel /= xScaleFactor;
+    yPixel /= yScaleFactor;
+    xNext /= xScaleFactor;
+    yNext /= yScaleFactor;
 
-      if(math.abs(yNext-yPixel) < 1){
-        dx = math.abs((yNext-yPixel))/delta;
-        xNext = i+math.min(dx, delta);
-        yNext = f(xNext)
-      }else{
-        xNext = xPixel+delta;
-        yNext = yPixel+delta;
-      }
+    yPixel = height-yPixel;
+    yNext = height-yNext;
 
+    ctx.beginPath();
+    ctx.moveTo(xPixel,yPixel);
+    ctx.lineTo(xNext, yNext);
 
-      xPixel = xPixel - leftBound;
-      yPixel = yPixel - bottomBound;
-      xNext = xNext - leftBound;
-      yNext = yNext - bottomBound;
+    ctx.strokeStyle = "#00ff00";
+    if(color == 1){
+      color = 0;
+      ctx.strokeStyle = "#ff0000";
+    }else{
+      color = 1;
+    }
 
-      xPixel = xPixel/xScaleFactor;
-      yPixel = yPixel/yScaleFactor;
-      xNext = xNext/xScaleFactor;
-      yNext = yNext/yScaleFactor;
+    ctx.stroke();
 
-      yPixel = height-yPixel;
-      yNext = height-yNext;
-
-      ctx.moveTo(xPixel,yPixel);
-      ctx.lineTo(xNext, yNext);
-      ctx.stroke();
-
-
-
-    i=i+delta;
-
-
-
-
-
+    i=i+delta-add;
 
   }
 
