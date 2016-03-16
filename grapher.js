@@ -31,7 +31,7 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
     return scope.y;
   }
 
-  var delta = 0.3;
+  var delta = 0.1;
   var dx = 0;
   var xNext;
   var yNext;
@@ -48,11 +48,12 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
 
     dx = (yNext-yPixel)/delta;
 
-    if(dx < 1 && dx > -1){
-      add = (math.abs(dx))*delta;
+    if(dx < 4 && dx > -4){
+      dx /= 4;
+      add = delta*(math.abs(dx));
       //add = math.max(math.abs(dx),0);
       //alert(add);
-      xNext = i+delta-add;
+      xNext = i+delta+add;
       yNext = f(xNext);
     }else{
       add = 0;
@@ -86,7 +87,7 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
 
     ctx.stroke();
 
-    i=i+delta-add;
+    i=i+delta+add;
 
   }
 
