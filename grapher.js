@@ -1,4 +1,4 @@
-function graph(expression, canvasId, x1, x2, y1, y2, thickness){
+function graph(expression, canvasId, x1, x2, y1, y2, thickness, color, background){
   var canvas = document.getElementById(canvasId);
   var ctx = canvas.getContext("2d");
 
@@ -35,20 +35,27 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
   var diff;
   var it = 0;
 
+  ctx.beginPath();
+  ctx.rect(0, 0, width, height);
+  ctx.fillStyle = background;
+  ctx.fill();
+
 
   for(var i = leftBound; i < rightBound; ){
 
     xPixel = i;
     yPixel = f(xPixel);
 
-    ctx.fillStyle = "#FF0000";
+    ctx.fillStyle = color;
 
     dx = (yPixel-f(xPixel+delta))/delta;
     diff=1;
+
     if(math.abs(dx) > 1/2){
       diff = math.abs(dx)*2;
-      diff = math.min(diff, height/pixelSize)
-      ctx.fillStyle = "#0000FF";
+      diff = math.min(diff, delta*height/pixelSize)
+      //ctx.fillStyle = "#0000FF";
+
     }
 
     xPixel -= leftBound;
@@ -66,7 +73,7 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
     it++;
 
   }
-  alert(it);
+  //alert(it);
 
 
 }
