@@ -1,4 +1,4 @@
-function graph(expression, canvasId, x1, x2, y1, y2, thickness, color, background){
+function graph(expression, canvasId, x1, x2, y1, y2, thickness, color){
   var canvas = document.getElementById(canvasId);
   var ctx = canvas.getContext("2d");
 
@@ -35,10 +35,7 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness, color, backgroun
   var diff;
   var it = 0;
 
-  ctx.beginPath();
-  ctx.rect(0, 0, width, height);
-  ctx.fillStyle = background;
-  ctx.fill();
+
 
 
   for(var i = leftBound; i < rightBound; ){
