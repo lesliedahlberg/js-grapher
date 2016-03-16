@@ -18,10 +18,9 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
 
   var pixelSize = thickness;
 
-  var xPixel = 0;
-  var yPixel = 0;
+  var xPixel;
+  var yPixel;
 
-  var scope;
 
   var f = function(x){
     var scope = {
@@ -31,65 +30,43 @@ function graph(expression, canvasId, x1, x2, y1, y2, thickness){
     return scope.y;
   }
 
-  var delta = 0.01;
-  var dx = 0;
-  var xNext;
-  var yNext;
+  var delta = xScaleFactor;
+  var dx;
+  var diff;
+  var it = 0;
 
-  var color = 1;
-  var add;
 
   for(var i = leftBound; i < rightBound; ){
+
     xPixel = i;
     yPixel = f(xPixel);
 
-    xNext = i+delta;
-    yNext = f(xNext);
+    ctx.fillStyle = "#FF0000";
 
-    dx = (yNext-yPixel)/delta;
-
-    //if(dx < 1 && dx > -1){
-      //dx /= 4;
-      add = delta*math.pow((math.abs(dx)),3);
-      //add = math.abs(dx);
-      //alert(add);
-      xNext = i+delta+add;
-      yNext = f(xNext);
-    //}else{
-      //add = 0;
-    //}
-
+    dx = (yPixel-f(xPixel+delta))/delta;
+    diff=1;
+    if(math.abs(dx) > 1/2){
+      diff = math.abs(dx)*2;
+      diff = math.min(diff, height/pixelSize)
+      ctx.fillStyle = "#0000FF";
+    }
 
     xPixel -= leftBound;
     yPixel -= bottomBound;
-    xNext -= leftBound;
-    yNext -= bottomBound;
 
     xPixel /= xScaleFactor;
     yPixel /= yScaleFactor;
-    xNext /= xScaleFactor;
-    yNext /= yScaleFactor;
 
     yPixel = height-yPixel;
-    yNext = height-yNext;
 
-    ctx.beginPath();
-    ctx.moveTo(xPixel,yPixel);
-    ctx.lineTo(xNext, yNext);
 
-    ctx.strokeStyle = "#00ff00";
-    if(color == 1){
-      color = 0;
-      ctx.strokeStyle = "#ff0000";
-    }else{
-      color = 1;
-    }
+    ctx.fillRect(xPixel,yPixel,pixelSize,pixelSize);
 
-    ctx.stroke();
-
-    i=i+delta+add;
+    i=i+delta/diff;
+    it++;
 
   }
+  alert(it);
 
 
 }
